@@ -1,6 +1,7 @@
 package base;
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.OutputType;
@@ -42,6 +43,8 @@ public class BaseTest {
 
         if(driver.getTitle().equals("Google"))
         {
+            Assert.assertEquals(driver.getTitle(),"Google");
+
             System.out.println("extentReportsDemo title matched");
 
             test.log(LogStatus.PASS, "Navigated to the specified URL");
@@ -49,10 +52,13 @@ public class BaseTest {
         else
         {
             System.out.println("extentReportsDemo title not matched");
+            Assert.assertEquals(driver.getTitle(),"Google");
 
             //test.log(LogStatus.FAIL, "Test Failed");
             //System.out.println("Demo :: "+capture(driver));
-            test.log(LogStatus.FAIL, test.addScreenCapture(capture(driver))+"Test Failed");
+            String filepath = capture(driver);
+            System.out.println("Demo :: " + filepath);
+            test.log(LogStatus.FAIL, test.addScreenCapture( filepath+"Test Failed"));
         }
     }
 
@@ -65,8 +71,11 @@ public class BaseTest {
         test = report.startTest("extentReportsDemo2","extentReportsDemo2 started");
 
         driver.get("https://www.google.co.in");
+       // Assert.assertEquals(driver.getTitle(),"Google");
+
         if(driver.getTitle().equals("Google"))
         {
+            Assert.assertEquals(driver.getTitle(),"Google");
             System.out.println("extentReportsDemo2 title matched");
             test.log(LogStatus.PASS, "Navigated to the specified URL");
         }
@@ -75,8 +84,8 @@ public class BaseTest {
 
            // test.log(LogStatus.FAIL, "Test Failed");
             //capture(driver);
-
-          test.log(LogStatus.FAIL, test.addScreenCapture( capture(driver))+"Test Failed");
+            Assert.assertEquals(driver.getTitle(),"Google");
+           test.log(LogStatus.FAIL, test.addScreenCapture( capture(driver))+"Test Failed");
 
         }
 
